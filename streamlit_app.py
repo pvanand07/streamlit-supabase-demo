@@ -18,6 +18,8 @@ def main():
     )
 
     if supabase.auth.session():
+        # TODO: providing the token from .auth to .postgres is broken in the current version
+        supabase.postgrest.auth(token=supabase.auth.session()['access_token'])
         if st.button("Sign out"):
             supabase.auth.sign_out()
             st.experimental_rerun()
@@ -100,6 +102,10 @@ def handle_password_recovery(supabase: Client):
 
 def show_profile(supabase: Client):
     st.write(f"Hello, {supabase.auth.current_user['email']}!")
+    user_id = supabase.auth.current_user['id']
+    profiles, _count = supabase.from_('user_profile').select('id', 'bio').eq('id', user_id).execute()
+    bio = st.text_area("Say something about yourself:", value=profiles[0]['bio'] if profiles else '')
+    supabase.from_('user_profile').insert({'bio': bio, 'id': user_id}, upsert=True).execute()
 
 
 @st.cache(allow_output_mutation=True)
