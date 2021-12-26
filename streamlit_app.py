@@ -47,7 +47,7 @@ def login_form(supabase: Client):
             password=password or None,
         )
         if result['status_code'] == 200:
-            st.write("The link was sent to your e-mail")
+            return True
         else:
             st.write("Error", result)
 
