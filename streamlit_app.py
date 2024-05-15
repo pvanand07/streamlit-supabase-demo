@@ -70,16 +70,17 @@ def main():
     if st.button('Signup'):
         signup_response = create_user(email, password)
         st.write(signup_response)
-        if 'error' in signup_response:
-            st.error(signup_response['error'])
+        if "error_code" in signup_response:
+            st.error(signup_response['error_code'])
         else:
             st.success("Signup successful! Please check your email for a login link.")
-    
+        
     if st.button('Login'):
         login_response = login_user(email, password)
         st.write(login_response)
-        st.write(login_response)
-    
+        if "error_code" in login_response:
+            st.error(signup_response["error_code"])
+            
     # Google OAuth section
     st.header('Google OAuth')
     if st.button('Login with Google'):
