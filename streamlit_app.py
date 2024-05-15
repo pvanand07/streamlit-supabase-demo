@@ -5,34 +5,24 @@ import os
 # Initialize Supabase client
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
-supabase: Client = create_client(url, key)
 
-# Streamlit UI
-st.title("Supabase Magic Link Authentication")
+# Initialize the Supabase client
+supabase = create_client(
+    supabase_url=url,
+    supabase_key=key,
+)
 
-if 'auth_state' not in st.session_state:
-    st.session_state.auth_state = None
+# Define the login function
+def login():
+    # Get the user's email address
+    email = st.text_input("Email address")
 
-if st.session_state.auth_state:
-    st.success("You are logged in!")
-    st.write("Welcome!")
-    # Add your authenticated app logic here
-else:
-    email = st.text_input("Enter your email address")
-    if st.button("Send Magic Link"):
-        try:
-            result = supabase.auth.sign_in(email=email)
-            st.success("Magic link sent! Please check your email.")
-        except Exception as e:
-            st.error(f"Error sending magic link: {e}")
+    # Send the user a magic link
+    supabase.auth.send_magic_link_email(email)
 
-    # Check for authentication token in URL
-    token = st.experimental_get_query_params().get("access_token", [None])[0]
-    if token:
-        try:
-            user = supabase.auth.api.get_user(token)
-            st.session_state.auth_state = user
-            st.experimental_rerun()
-        except Exception as e:
-            st.error(f"Error verifying token: {e}")
+    # Display a message to the user
+    st.write("A magic link has been sent to your email address. Please click on the link to log in.")
 
+# Display the login button
+if st.button("Login"):
+    login()
