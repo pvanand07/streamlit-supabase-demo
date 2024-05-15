@@ -25,7 +25,7 @@ def create_user(email, password):
     return response.json()
 
 def login_user(email, password):
-    endpoint = f'{supabase_url}/auth/v1/token'
+    endpoint = f'{supabase_url}/auth/v1/token?grant_type=password'
     headers = {
         'apikey': supabase_key,
         'Content-Type': 'application/json'
@@ -82,8 +82,8 @@ def main():
         st.write(f"[Click here to authenticate with Google]({auth_url})")
     
     # Handling the OAuth response
-    if 'code' in st.query_params:
-        code = st.query_params['code'][0]
+    if 'code' in st.experimental_get_query_params():
+        code = st.experimental_get_query_params()['code'][0]
         token_response = exchange_code_for_token(code)
         st.write(token_response)
 
