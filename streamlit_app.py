@@ -1,28 +1,53 @@
 import streamlit as st
-from supabase import create_client, Client
 import os
+import requests
+from supabase import create_client, Client
+
+# Fetch Supabase URL and key from environment variables
+supabase_url = os.getenv('SUPABASE_URL')
+supabase_key = os.getenv('SUPABASE_KEY')
 
 # Initialize Supabase client
-url = os.environ["SUPABASE_URL"]
-key = os.environ["SUPABASE_KEY"]
+supabase_client: Client = create_client(supabase_url, supabase_key)
 
-# Initialize the Supabase client
-supabase = create_client(
-    supabase_url=url,
-    supabase_key=key,
-)
+def create_user(email, password):
+    endpoint = f'{supabase_url}/auth/v1/signup'
+    data = {
+        'email': email,
+        'password': password
+    }
+    response = requests.post(endpoint, json=data)
+    return response.json()
 
-# Define the login function
-def login():
-    # Get the user's email address
-    email = st.text_input("Email address")
+def login_user(email, password):
+    endpoint = f'{supabase_url}/auth/v1/token'
+    data = {
+        'email': email,
+        'password': password
+    }
+    response = requests.post(endpoint, json=data)
+    return response.json()
 
-    # Send the user a magic link
-    supabase.auth.send_magic_link_email(email)
+# Streamlit app
+st.title('User Authentication')
 
-    # Display a message to the user
-    st.write("A magic link has been sent to your email address. Please click on the link to log in.")
+# Signup section
+st.header('Signup')
+signup_email = st.text_input('Signup Email')
+signup_password = st.text_input('Signup Password', type='password')
 
-# Display the login button
-if st.button("Login"):
-    login()
+if st.button('Signup'):
+    signup_response = create_user(signup_email, signup_password)
+    st.write(signup_response)
+
+# Login section
+st.header('Login')
+login_email = st.text_input('Login Email')
+login_password = st.text_input('Login Password', type='password')
+
+if st.button('Login'):
+    login_response = login_user(login_email, login_password)
+    st.write(login_response)
+
+if __name__ == '__main__':
+    st.run()
