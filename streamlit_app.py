@@ -66,18 +66,18 @@ def main():
     st.image("https://www.svgrepo.com/show/303188/research.svg", width=100)
     
     # Signup section
-    st.header('🔑 Login/Signup')
-    email = st.text_input('📧 Email')
-    password = st.text_input('🔒 Password', type='password')
+    st.header('Login/Signup 🔑')
+    email = st.text_input('Email 📧')
+    password = st.text_input('Password 🔒', type='password')
     
-    if st.button('📝 Signup'):
+    if st.button('Signup 📝'):
         signup_response = create_user(email, password)
         if "error_code" in signup_response:
             st.error(signup_response['error_code'])
         else:
             st.success("Signup successful! 🎉 Please check your email for a login link.")
         
-    if st.button('🔓 Login'):
+    if st.button('Login 🔓 '):
         login_response = login_user(email, password)
         st.write(login_response)
         if "error_code" in login_response:
