@@ -64,8 +64,8 @@ def main():
     
     # Signup section
     st.header('Login/Signup')
-    signup_email = st.text_input('Email')
-    signup_password = st.text_input('Password', type='password')
+    email = st.text_input('Email')
+    password = st.text_input('Password', type='password')
     
     if st.button('Signup'):
         signup_response = create_user(email, password)
