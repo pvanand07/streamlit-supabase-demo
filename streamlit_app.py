@@ -60,10 +60,7 @@ def exchange_code_for_token(code):
 
 def main():
     # Streamlit app
-    st.title('Welcome to Multi Agent Research 🚀')
-    
-    # Adding a vector graphic
-    st.image("https://www.svgrepo.com/show/303188/research.svg", width=100)
+    st.title('Welcome to Multi Agent Research')
     
     # Signup section
     st.header('Login/Signup 🔑')
