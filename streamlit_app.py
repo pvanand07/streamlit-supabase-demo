@@ -87,8 +87,8 @@ def main():
         st.write(f"[Click here to authenticate with Google]({auth_url})")
     
     # Handling the OAuth response
-    if 'code' in st.st.query_params():
-        code = st.st.query_params()['code'][0]
+    if 'code' in st.query_params():
+        code = st.query_params()['code'][0]
         token_response = exchange_code_for_token(code)
         st.write(token_response)
 
