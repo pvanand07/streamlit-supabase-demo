@@ -60,7 +60,7 @@ def exchange_code_for_token(code):
 
 def main():
     # Streamlit app
-    st.title('User Authentication')
+    st.title('Welcome to Multi Agent Research')
     
     # Signup section
     st.header('Login/Signup')
@@ -69,7 +69,6 @@ def main():
     
     if st.button('Signup'):
         signup_response = create_user(email, password)
-        st.write(signup_response)
         if "error_code" in signup_response:
             st.error(signup_response['error_code'])
         else:
