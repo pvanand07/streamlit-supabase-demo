@@ -63,21 +63,16 @@ def main():
     st.title('User Authentication')
     
     # Signup section
-    st.header('Signup')
-    signup_email = st.text_input('Signup Email')
-    signup_password = st.text_input('Signup Password', type='password')
+    st.header('Login/Signup')
+    signup_email = st.text_input('Email')
+    signup_password = st.text_input('Password', type='password')
     
     if st.button('Signup'):
-        signup_response = create_user(signup_email, signup_password)
+        signup_response = create_user(email, password)
         st.write(signup_response)
     
-    # Login section
-    st.header('Login')
-    login_email = st.text_input('Login Email')
-    login_password = st.text_input('Login Password', type='password')
-    
     if st.button('Login'):
-        login_response = login_user(login_email, login_password)
+        login_response = login_user(email, password)
         st.write(login_response)
     
     # Google OAuth section
