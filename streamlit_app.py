@@ -69,6 +69,7 @@ def main():
     
     if st.button('Signup'):
         signup_response = create_user(email, password)
+        st.write(signup_response)
         if 'error' in signup_response:
             st.error(signup_response['error'])
         else:
@@ -76,6 +77,7 @@ def main():
     
     if st.button('Login'):
         login_response = login_user(email, password)
+        st.write(login_response)
         st.write(login_response)
     
     # Google OAuth section
